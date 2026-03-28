@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface PageLayoutProps {
   title: string;
@@ -25,6 +26,9 @@ const PageLayout = ({ title, children }: PageLayoutProps) => (
         >
           {title}
         </motion.h1>
+        <div className="ml-auto">
+          <ThemeToggle />
+        </div>
       </div>
     </header>
     <main className="container mx-auto px-4 py-8 md:px-6">{children}</main>

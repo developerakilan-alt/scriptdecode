@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Languages, ScrollText, MessageCircle } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const features = [
   {
@@ -26,6 +27,11 @@ const features = [
 
 const Index = () => (
   <div className="relative min-h-screen overflow-hidden">
+    {/* Theme Toggle */}
+    <div className="absolute right-4 top-4 z-20">
+      <ThemeToggle />
+    </div>
+
     {/* Background */}
     <img
       src={heroBg}
@@ -75,6 +81,16 @@ const Index = () => (
           </motion.div>
         ))}
       </div>
+
+      {/* Credits */}
+      <motion.p
+        className="absolute bottom-4 right-4 text-xs text-muted-foreground/70"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+      >
+        Designed by Archana, Kannimatha, Bhuvana, Deepika
+      </motion.p>
     </div>
   </div>
 );
