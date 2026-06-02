@@ -3,6 +3,7 @@ import { Send, Bot, User, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import PageLayout from "@/components/PageLayout";
 import GlassCard from "@/components/GlassCard";
+import bg from "@/assets/pastoria-bg.jpg.asset.json";
 
 interface Message {
   role: "user" | "assistant";
@@ -72,7 +73,7 @@ const Pastoria = () => {
   };
 
   return (
-    <PageLayout title="Pastoria">
+    <PageLayout title="Pastoria" backgroundImage={bg.url}>
       <div className="mx-auto flex h-[calc(100vh-8rem)] max-w-3xl flex-col">
         {/* Chat Area */}
         <GlassCard className="flex-1 overflow-y-auto p-4 md:p-6" hover={false}>

@@ -3,6 +3,7 @@ import { Upload, Image as ImageIcon, Loader2, ScrollText, Download } from "lucid
 import { motion, AnimatePresence } from "framer-motion";
 import PageLayout from "@/components/PageLayout";
 import GlassCard from "@/components/GlassCard";
+import bg from "@/assets/fullscript-bg.jpg.asset.json";
 
 const FullScript = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -36,7 +37,7 @@ const FullScript = () => {
   };
 
   return (
-    <PageLayout title="Full Script">
+    <PageLayout title="Full Script" backgroundImage={bg.url}>
       <div className="mx-auto max-w-3xl space-y-8">
         <GlassCard className="p-8" hover={false}>
           <div
