@@ -48,7 +48,7 @@ const FullScript = () => {
             <p className="text-center text-muted-foreground">
               Upload a damaged or partial Egyptian script for AI reconstruction
             </p>
-            <span className="glass-button rounded-lg px-6 py-2 text-sm font-medium text-foreground">
+            <span className="glass-button rounded-lg px-6 py-2 text-sm font-medium text-foreground hover:bg-muted">
               Upload Image
             </span>
             <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleUpload} />
@@ -90,7 +90,7 @@ const FullScript = () => {
               <GlassCard className="p-6" hover={false}>
                 <h3 className="mb-3 font-display text-lg text-primary">Reconstruction Analysis</h3>
                 <p className="leading-relaxed text-foreground">{result.explanation}</p>
-                <button className="glass-button mt-4 flex items-center gap-2 rounded-lg px-4 py-2 text-sm text-foreground">
+                <button className="glass-button mt-4 flex items-center gap-2 rounded-lg px-4 py-2 text-sm text-foreground hover:bg-muted">
                   <Download className="h-4 w-4" />
                   Download Result
                 </button>

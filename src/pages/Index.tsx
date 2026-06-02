@@ -124,7 +124,7 @@ const Index = () => {
             <Link
               key={f.to}
               to={f.to}
-              className="reveal glass-panel group flex flex-col items-center gap-4 rounded-xl p-8 text-center transition-all duration-300 hover:scale-105 glow-gold"
+              className="reveal glass-panel group flex flex-col items-center gap-4 rounded-xl p-8 text-center transition-all duration-300 hover:scale-105 shadow-lg"
             >
               <div className="flex h-16 w-16 items-center justify-center rounded-full border border-primary/30 bg-primary/10">
                 <f.icon className="h-8 w-8 text-primary" />
@@ -140,7 +140,7 @@ const Index = () => {
 
       {/* Section 3: Credits */}
       <section className="snap-section relative z-10 flex min-h-screen flex-col items-center justify-center px-4">
-        <div className="glass-panel-strong reveal max-w-2xl rounded-2xl p-10 text-center md:p-14">
+        <div className="glass-panel-strong reveal max-w-2xl rounded-2xl p-10 text-center md:p-14 shadow-lg">
           <h2 className="text-gold-gradient mb-6 font-display text-3xl font-bold md:text-4xl">
             Where Past Meets Intelligence
           </h2>

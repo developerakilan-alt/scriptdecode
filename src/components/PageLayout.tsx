@@ -23,11 +23,11 @@ const PageLayout = ({ title, children, backgroundImage }: PageLayoutProps) => (
       </>
     )}
     <div className="relative z-10">
-      <header className="glass-panel-strong sticky top-0 z-50">
+      <header className="sticky top-0 z-50 border-b border-border bg-card/95">
         <div className="container mx-auto flex items-center gap-4 px-6 py-4">
           <Link
             to="/"
-            className="glass-button flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-foreground"
+            className="glass-button flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-foreground hover:bg-muted"
           >
             <ArrowLeft className="h-4 w-4" />
             Back
