@@ -182,7 +182,7 @@ const Pastoria = () => {
         )}
 
         {/* Input */}
-        <div className="glass-panel-strong mt-2 flex items-center gap-3 rounded-xl p-3">
+        <div className="mt-2 flex items-center gap-3 rounded-xl border border-border bg-card p-3 shadow-md">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
