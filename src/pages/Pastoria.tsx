@@ -97,8 +97,8 @@ const Pastoria = () => {
                   <button
                     key={s}
                     onClick={() => send(s)}
-                    className="glass-button flex items-center gap-1.5 rounded-full px-4 py-2 text-xs text-foreground"
-                  >
+                    className="glass-button flex items-center gap-1.5 rounded-full px-4 py-2 text-xs text-foreground hover:bg-muted"
+                    >
                     <Sparkles className="h-3 w-3 text-primary" />
                     {s}
                   </button>
@@ -122,13 +122,13 @@ const Pastoria = () => {
                       <Bot className="h-4 w-4 text-primary" />
                     </div>
                   )}
-                  <div
-                    className={`max-w-[80%] rounded-xl px-4 py-3 text-sm leading-relaxed ${
-                      m.role === "user"
-                        ? "bg-primary/20 text-foreground"
-                        : "glass-panel-strong text-foreground"
-                    }`}
-                  >
+                    <div
+                      className={`max-w-[80%] rounded-xl px-4 py-3 text-sm leading-relaxed border ${
+                        m.role === "user"
+                          ? "bg-primary/20 text-foreground border-primary/20"
+                          : "bg-card text-foreground border-border"
+                      }`}
+                    >
                     {m.content.split("\n").map((line, li) => (
                       <p key={li} className={li > 0 ? "mt-1" : ""}>
                         {line.split(/(\*\*.*?\*\*)/).map((part, pi) =>
@@ -155,7 +155,7 @@ const Pastoria = () => {
                 <div className="flex h-8 w-8 items-center justify-center rounded-full border border-primary/30 bg-primary/10">
                   <Bot className="h-4 w-4 text-primary" />
                 </div>
-                <div className="glass-panel-strong flex items-center gap-1 rounded-xl px-4 py-3">
+                <div className="glass-button flex items-center gap-1 rounded-xl px-4 py-3">
                   <span className="h-2 w-2 animate-bounce rounded-full bg-primary/50" style={{ animationDelay: "0ms" }} />
                   <span className="h-2 w-2 animate-bounce rounded-full bg-primary/50" style={{ animationDelay: "150ms" }} />
                   <span className="h-2 w-2 animate-bounce rounded-full bg-primary/50" style={{ animationDelay: "300ms" }} />
@@ -173,7 +173,7 @@ const Pastoria = () => {
               <button
                 key={s}
                 onClick={() => send(s)}
-                className="glass-button flex-shrink-0 rounded-full px-3 py-1.5 text-xs text-foreground"
+                className="glass-button flex-shrink-0 rounded-full px-3 py-1.5 text-xs text-foreground hover:bg-muted"
               >
                 {s}
               </button>
@@ -194,7 +194,7 @@ const Pastoria = () => {
           <button
             onClick={() => send(input)}
             disabled={loading || !input.trim()}
-            className="glass-button flex h-9 w-9 items-center justify-center rounded-lg text-primary disabled:opacity-30"
+            className="glass-button flex h-9 w-9 items-center justify-center rounded-lg text-primary disabled:opacity-30 hover:bg-muted"
           >
             <Send className="h-4 w-4" />
           </button>

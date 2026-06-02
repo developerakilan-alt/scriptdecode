@@ -48,7 +48,7 @@ const ScriptTranslation = () => {
             <p className="text-center text-muted-foreground">
               Click to upload an image of Egyptian hieroglyphs
             </p>
-            <span className="glass-button rounded-lg px-6 py-2 text-sm font-medium text-foreground">
+            <span className="glass-button rounded-lg px-6 py-2 text-sm font-medium text-foreground hover:bg-muted">
               Upload Image
             </span>
             <input
@@ -105,7 +105,7 @@ const ScriptTranslation = () => {
                   {result.symbols.map((s, i) => (
                     <span
                       key={i}
-                      className="glass-button flex h-12 w-12 items-center justify-center rounded-lg text-2xl"
+                      className="glass-button flex h-12 w-12 items-center justify-center rounded-lg text-2xl hover:bg-muted"
                     >
                       {s}
                     </span>
@@ -116,7 +116,7 @@ const ScriptTranslation = () => {
               <GlassCard className="p-6" hover={false}>
                 <h3 className="mb-3 font-display text-lg text-primary">English Translation</h3>
                 <p className="leading-relaxed text-foreground">{result.translation}</p>
-                <button className="glass-button mt-4 flex items-center gap-2 rounded-lg px-4 py-2 text-sm text-foreground">
+                <button className="glass-button mt-4 flex items-center gap-2 rounded-lg px-4 py-2 text-sm text-foreground hover:bg-muted">
                   <Download className="h-4 w-4" />
                   Download Result
                 </button>
