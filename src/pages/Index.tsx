@@ -87,7 +87,7 @@ const Index = () => {
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 h-full w-full object-cover"
       />
-      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-background/30 via-background/50 to-background/80" />
+      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-background/10 via-background/30 to-background/60" />
 
       {/* Theme Toggle */}
       <div className="fixed right-4 top-4 z-30">
