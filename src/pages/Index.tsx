@@ -1,98 +1,151 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Languages, ScrollText, MessageCircle } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
+import { Languages, ScrollText, MessageCircle, ChevronDown } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import ThemeToggle from "@/components/ThemeToggle";
+import heroBg from "@/assets/home-bg.jpg.asset.json";
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const features = [
   {
     to: "/translate",
     icon: Languages,
     title: "Script Translation",
-    description: "Upload hieroglyph images and get AI-powered English translations",
+    description: "Upload hieroglyph images and get AI-powered English translations of ancient symbols.",
   },
   {
     to: "/full-script",
     icon: ScrollText,
     title: "Full Script",
-    description: "Reconstruct damaged or partial Egyptian inscriptions using AI",
+    description: "Reconstruct damaged or partial Egyptian inscriptions using intelligent AI analysis.",
   },
   {
     to: "/pastoria",
     icon: MessageCircle,
     title: "Pastoria",
-    description: "Chat with an AI expert on Egypt, archaeology, and ancient history",
+    description: "Chat with an AI expert on Egypt, archaeology, and ancient mythological history.",
   },
 ];
 
-const Index = () => (
-  <div className="relative min-h-screen overflow-hidden">
-    {/* Theme Toggle */}
-    <div className="absolute right-4 top-4 z-20">
-      <ThemeToggle />
-    </div>
+const Index = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
 
-    {/* Background */}
-    <img
-      src={heroBg}
-      alt=""
-      className="absolute inset-0 h-full w-full object-cover"
-      width={1920}
-      height={1080}
-    />
-    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const sections = gsap.utils.toArray<HTMLElement>(".snap-section");
 
-    {/* Content */}
-    <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4">
-      <motion.div
-        className="mb-16 text-center"
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <h1 className="text-gold-gradient mb-4 font-display text-5xl font-bold tracking-wide md:text-7xl">
-          Script Decode
-        </h1>
-        <p className="mx-auto max-w-xl text-lg text-muted-foreground">
-          Unlock the secrets of ancient Egypt with AI-powered script analysis, translation, and archaeological insights.
-        </p>
-      </motion.div>
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top top",
+        end: () => `+=${(sections.length - 1) * window.innerHeight}`,
+        snap: {
+          snapTo: 1 / (sections.length - 1),
+          duration: { min: 0.3, max: 0.8 },
+          ease: "power2.inOut",
+        },
+      });
 
-      <div className="grid w-full max-w-4xl gap-6 md:grid-cols-3">
-        {features.map((f, i) => (
-          <motion.div
-            key={f.to}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 + i * 0.15 }}
-          >
+      sections.forEach((section) => {
+        gsap.from(section.querySelectorAll(".reveal"), {
+          y: 60,
+          opacity: 0,
+          duration: 0.9,
+          stagger: 0.12,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 70%",
+          },
+        });
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div ref={containerRef} className="relative">
+      {/* Fixed background across all snap sections */}
+      <img
+        src={heroBg.url}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 h-full w-full object-cover"
+      />
+      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-background/30 via-background/50 to-background/80" />
+
+      {/* Theme Toggle */}
+      <div className="fixed right-4 top-4 z-30">
+        <ThemeToggle />
+      </div>
+
+      {/* Section 1: Hero */}
+      <section className="snap-section relative z-10 flex min-h-screen flex-col items-center justify-center px-4">
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="text-gold-gradient mb-6 font-display text-6xl font-bold tracking-wide md:text-8xl">
+            Script Decode
+          </h1>
+          <p className="mx-auto max-w-2xl text-lg text-foreground/80 md:text-xl">
+            Unlock the secrets of ancient Egypt with AI-powered script analysis, translation, and archaeological insights.
+          </p>
+          <div className="mt-12 flex animate-bounce justify-center text-primary">
+            <ChevronDown className="h-8 w-8" />
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Section 2: Features */}
+      <section className="snap-section relative z-10 flex min-h-screen flex-col items-center justify-center px-4 py-16">
+        <h2 className="reveal text-gold-gradient mb-12 text-center font-display text-4xl font-bold md:text-5xl">
+          Explore the Mysteries
+        </h2>
+        <div className="grid w-full max-w-5xl gap-6 md:grid-cols-3">
+          {features.map((f) => (
             <Link
+              key={f.to}
               to={f.to}
-              className="glass-panel group flex flex-col items-center gap-4 rounded-xl p-8 text-center transition-all duration-300 hover:scale-105 glow-gold"
+              className="reveal glass-panel group flex flex-col items-center gap-4 rounded-xl p-8 text-center transition-all duration-300 hover:scale-105 glow-gold"
             >
               <div className="flex h-16 w-16 items-center justify-center rounded-full border border-primary/30 bg-primary/10">
                 <f.icon className="h-8 w-8 text-primary" />
               </div>
-              <h2 className="font-display text-xl font-semibold text-foreground">
+              <h3 className="font-display text-xl font-semibold text-foreground">
                 {f.title}
-              </h2>
-              <p className="text-sm text-muted-foreground">{f.description}</p>
+              </h3>
+              <p className="text-sm text-foreground/75">{f.description}</p>
             </Link>
-          </motion.div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </section>
 
-      {/* Credits */}
-      <motion.p
-        className="absolute bottom-4 right-4 text-xs text-muted-foreground/70"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-      >
-        Designed by Archana, Kannimatha, Bhuvana, Deepika
-      </motion.p>
+      {/* Section 3: Credits */}
+      <section className="snap-section relative z-10 flex min-h-screen flex-col items-center justify-center px-4">
+        <div className="glass-panel-strong reveal max-w-2xl rounded-2xl p-10 text-center md:p-14">
+          <h2 className="text-gold-gradient mb-6 font-display text-3xl font-bold md:text-4xl">
+            Where Past Meets Intelligence
+          </h2>
+          <p className="mb-8 text-foreground/80">
+            Built with reverence for the ancients and the precision of modern AI.
+          </p>
+          <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
+            Designed by
+          </p>
+          <p className="mt-3 font-display text-lg text-foreground">
+            Archana · Kannimatha · Bhuvana · Deepika
+          </p>
+        </div>
+      </section>
     </div>
-  </div>
-);
+  );
+};
 
 export default Index;
