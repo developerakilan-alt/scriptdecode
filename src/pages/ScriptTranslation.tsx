@@ -3,6 +3,7 @@ import { Upload, Image as ImageIcon, Loader2, Download } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import PageLayout from "@/components/PageLayout";
 import GlassCard from "@/components/GlassCard";
+import bg from "@/assets/translation-bg.jpg.asset.json";
 
 const ScriptTranslation = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -35,7 +36,7 @@ const ScriptTranslation = () => {
   };
 
   return (
-    <PageLayout title="Script Translation">
+    <PageLayout title="Script Translation" backgroundImage={bg.url}>
       <div className="mx-auto max-w-3xl space-y-8">
         {/* Upload Area */}
         <GlassCard className="p-8" hover={false}>

@@ -6,7 +6,7 @@ const ThemeToggle = () => {
     if (typeof window !== "undefined") {
       return !document.documentElement.classList.contains("light");
     }
-    return true;
+    return false;
   });
 
   useEffect(() => {
