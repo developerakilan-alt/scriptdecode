@@ -37,6 +37,7 @@ const Index = () => {
   useEffect(() => {
     const ctx = gsap.context(() => {
       const sections = gsap.utils.toArray<HTMLElement>(".snap-section");
+      if (sections.length < 2) return;
 
       ScrollTrigger.create({
         trigger: containerRef.current,
@@ -50,18 +51,28 @@ const Index = () => {
       });
 
       sections.forEach((section) => {
-        gsap.from(section.querySelectorAll(".reveal"), {
-          y: 60,
-          opacity: 0,
-          duration: 0.9,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 70%",
-          },
-        });
+        const items = section.querySelectorAll(".reveal");
+        if (!items.length) return;
+        gsap.fromTo(
+          items,
+          { y: 60, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            stagger: 0.12,
+            ease: "power3.out",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%",
+              once: true,
+            },
+          }
+        );
       });
+
+      ScrollTrigger.refresh();
     }, containerRef);
 
     return () => ctx.revert();
