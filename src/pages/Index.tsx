@@ -236,9 +236,9 @@ export default function Index() {
               transition={{ duration: 0.8, delay: 0.5 }}
               className="hero-subtitle-row"
             >
-              <img src="/Left wing .png" alt="" draggable={false} className="hero-wing hero-wing-img" />
+              <img src="/LeftWing.png" alt="" draggable={false} className="hero-wing hero-wing-img" />
               <span className="hero-subtitle">Speak the Ancients</span>
-              <img src="/RIght Wing .png" alt="" draggable={false} className="hero-wing hero-wing-img hero-wing-img-r" />
+              <img src="/RightWing.png" alt="" draggable={false} className="hero-wing hero-wing-img hero-wing-img-r" />
             </motion.div>
 
             <motion.p
