@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { Send, Bot, User, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
 import PageLayout from "@/components/PageLayout";
 import GlassCard from "@/components/GlassCard";
-import bg from "@/assets/pastoria-bg.jpg.asset.json";
+import { CopyShare } from "@/components/ui-ext/CopyShare";
+import { answerQuestion, formatAnswer } from "@/lib/egypt";
 
 interface Message {
   role: "user" | "assistant";
@@ -15,20 +17,9 @@ const suggestions = [
   "Who built the pyramids?",
   "Explain mummification",
   "Tell me about Cleopatra",
-  "What is the Rosetta Stone?",
+  "What is the Book of the Dead?",
+  "Tell me about Anubis",
 ];
-
-const mockResponses: Record<string, string> = {
-  default: `Here are some key points about ancient Egypt:
-
-• **Ancient Egypt** lasted for over 3,000 years, from around 3100 BCE to 30 BCE
-• The civilization developed along the **Nile River**, which provided fertile land for agriculture
-• Egyptians created one of the earliest writing systems — **hieroglyphs** — consisting of over 700 symbols
-• They built monumental structures including **pyramids, temples, and the Great Sphinx**
-• Their advancements in **medicine, mathematics, and astronomy** influenced later civilizations
-
-Feel free to ask me anything specific about Egyptian history, archaeology, or ancient scripts!`,
-};
 
 const Pastoria = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -40,18 +31,6 @@ const Pastoria = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const isEgyptRelated = (text: string) => {
-    const keywords = [
-      "egypt", "pharaoh", "pyramid", "hieroglyph", "nile", "mummy", "mummif",
-      "sphinx", "cleopatra", "tutankhamun", "rosetta", "archaeology", "ancient",
-      "temple", "tomb", "papyrus", "scarab", "anubis", "osiris", "isis", "ra",
-      "dynasty", "kingdom", "scroll", "inscription", "script", "glyph", "obelisk",
-      "sarcophagus", "cartouche", "ankh", "history", "civilization", "artifact",
-    ];
-    const lower = text.toLowerCase();
-    return keywords.some((k) => lower.includes(k));
-  };
-
   const send = (text: string) => {
     if (!text.trim()) return;
     const userMsg: Message = { role: "user", content: text.trim() };
@@ -60,22 +39,19 @@ const Pastoria = () => {
     setLoading(true);
 
     setTimeout(() => {
-      let reply: string;
-      if (!isEgyptRelated(text)) {
-        reply =
-          "I appreciate your curiosity! However, I'm **Pastoria** — an archaeology assistant specialized in **ancient Egypt, hieroglyphs, and archaeological history**. I can only help with topics in those areas. Try asking me about pyramids, mummification, or the Rosetta Stone!";
-      } else {
-        reply = mockResponses.default;
-      }
-      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+      const topic = answerQuestion(text);
+      setMessages((prev) => [...prev, { role: "assistant", content: formatAnswer(topic) }]);
       setLoading(false);
-    }, 1500);
+    }, 1400);
   };
 
   return (
-    <PageLayout title="Pastoria" backgroundImage={bg.url}>
-      <div className="mx-auto flex h-[calc(100vh-8rem)] max-w-3xl flex-col">
-        {/* Chat Area */}
+    <PageLayout
+      title="Pastoria AI"
+      eyebrow="Sacred Chat"
+      subtitle="Chat with an AI expert on Egypt, archaeology, and ancient mythology — every answer comes in 5 key points."
+    >
+      <div className="mx-auto flex h-[calc(100vh-15rem)] min-h-[480px] max-w-3xl flex-col">
         <GlassCard className="flex-1 overflow-y-auto p-4 md:p-6" hover={false}>
           {messages.length === 0 && (
             <motion.div
@@ -83,11 +59,11 @@ const Pastoria = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              <div className="flex h-20 w-20 items-center justify-center rounded-full border border-primary/30 bg-primary/10">
-                <Bot className="h-10 w-10 text-primary" />
+              <div className="flex h-20 w-20 items-center justify-center rounded-full border border-gold/30 bg-gold/10 glow-gold">
+                <Bot className="h-10 w-10 text-gold" />
               </div>
               <div className="text-center">
-                <h2 className="mb-2 font-display text-2xl text-primary">Welcome to Pastoria</h2>
+                <h2 className="mb-2 font-display text-2xl text-gold">Welcome to Pastoria</h2>
                 <p className="text-sm text-muted-foreground">
                   Your AI archaeology assistant. Ask me anything about ancient Egypt!
                 </p>
@@ -97,9 +73,9 @@ const Pastoria = () => {
                   <button
                     key={s}
                     onClick={() => send(s)}
-                    className="glass-button flex items-center gap-1.5 rounded-full px-4 py-2 text-xs text-foreground hover:bg-muted"
-                    >
-                    <Sparkles className="h-3 w-3 text-primary" />
+                    className="btn-ghost-gold flex items-center gap-1.5 rounded-full px-4 py-2 text-xs"
+                  >
+                    <Sparkles className="h-3 w-3 text-gold" />
                     {s}
                   </button>
                 ))}
@@ -118,32 +94,29 @@ const Pastoria = () => {
                   transition={{ duration: 0.3 }}
                 >
                   {m.role === "assistant" && (
-                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10">
-                      <Bot className="h-4 w-4 text-primary" />
+                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-gold/30 bg-gold/10">
+                      <Bot className="h-4 w-4 text-gold" />
                     </div>
                   )}
-                    <div
-                      className={`max-w-[80%] rounded-xl px-4 py-3 text-sm leading-relaxed border ${
-                        m.role === "user"
-                          ? "bg-primary/20 text-foreground border-primary/20"
-                          : "bg-card text-foreground border-border"
-                      }`}
-                    >
-                    {m.content.split("\n").map((line, li) => (
-                      <p key={li} className={li > 0 ? "mt-1" : ""}>
-                        {line.split(/(\*\*.*?\*\*)/).map((part, pi) =>
-                          part.startsWith("**") && part.endsWith("**") ? (
-                            <strong key={pi} className="text-primary">{part.slice(2, -2)}</strong>
-                          ) : (
-                            <span key={pi}>{part}</span>
-                          )
-                        )}
-                      </p>
-                    ))}
+                  <div
+                    className={`max-w-[80%] rounded-xl px-4 py-3 text-sm leading-relaxed border ${
+                      m.role === "user"
+                        ? "bg-electric/10 text-foreground border-electric/20"
+                        : "glass text-foreground"
+                    }`}
+                  >
+                    <div className="[&_ul]:space-y-1 [&_li]:list-none [&_strong]:text-gold">
+                      <ReactMarkdown>{m.content}</ReactMarkdown>
+                    </div>
+                    {m.role === "assistant" && (
+                      <div className="mt-3">
+                        <CopyShare text={m.content} title="Pastoria answer" />
+                      </div>
+                    )}
                   </div>
                   {m.role === "user" && (
-                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10">
-                      <User className="h-4 w-4 text-primary" />
+                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-gold/30 bg-gold/10">
+                      <User className="h-4 w-4 text-gold" />
                     </div>
                   )}
                 </motion.div>
@@ -152,13 +125,13 @@ const Pastoria = () => {
 
             {loading && (
               <motion.div className="flex gap-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-primary/30 bg-primary/10">
-                  <Bot className="h-4 w-4 text-primary" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/30 bg-gold/10">
+                  <Bot className="h-4 w-4 text-gold" />
                 </div>
-                <div className="glass-button flex items-center gap-1 rounded-xl px-4 py-3">
-                  <span className="h-2 w-2 animate-bounce rounded-full bg-primary/50" style={{ animationDelay: "0ms" }} />
-                  <span className="h-2 w-2 animate-bounce rounded-full bg-primary/50" style={{ animationDelay: "150ms" }} />
-                  <span className="h-2 w-2 animate-bounce rounded-full bg-primary/50" style={{ animationDelay: "300ms" }} />
+                <div className="glass flex items-center gap-1 rounded-xl px-4 py-3">
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-gold/60" style={{ animationDelay: "0ms" }} />
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-gold/60" style={{ animationDelay: "150ms" }} />
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-gold/60" style={{ animationDelay: "300ms" }} />
                 </div>
               </motion.div>
             )}
@@ -166,14 +139,13 @@ const Pastoria = () => {
           <div ref={bottomRef} />
         </GlassCard>
 
-        {/* Suggestions when chatting */}
         {messages.length > 0 && (
           <div className="flex gap-2 overflow-x-auto py-2">
             {suggestions.map((s) => (
               <button
                 key={s}
                 onClick={() => send(s)}
-                className="glass-button flex-shrink-0 rounded-full px-3 py-1.5 text-xs text-foreground hover:bg-muted"
+                className="btn-ghost-gold flex-shrink-0 rounded-full px-3 py-1.5 text-xs"
               >
                 {s}
               </button>
@@ -181,8 +153,7 @@ const Pastoria = () => {
           </div>
         )}
 
-        {/* Input */}
-        <div className="mt-2 flex items-center gap-3 rounded-xl border border-border bg-card p-3 shadow-md">
+        <div className="glass-panel mt-2 flex items-center gap-3 p-3">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -190,11 +161,13 @@ const Pastoria = () => {
             placeholder="Ask about ancient Egypt…"
             className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
             disabled={loading}
+            aria-label="Message Pastoria"
           />
           <button
             onClick={() => send(input)}
             disabled={loading || !input.trim()}
-            className="glass-button flex h-9 w-9 items-center justify-center rounded-lg text-primary disabled:opacity-30 hover:bg-muted"
+            className="btn-gold flex h-9 w-9 items-center justify-center rounded-lg disabled:opacity-30"
+            aria-label="Send message"
           >
             <Send className="h-4 w-4" />
           </button>

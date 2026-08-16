@@ -1,50 +1,37 @@
-import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
-import ThemeToggle from "@/components/ThemeToggle";
+import { EyeMark } from "@/components/layout/Navbar";
+import { ToolSwitcher } from "@/components/ui-ext/ToolSwitcher";
 
 interface PageLayoutProps {
   title: string;
+  subtitle?: string;
+  eyebrow?: string;
   children: React.ReactNode;
-  backgroundImage?: string;
 }
 
-const PageLayout = ({ title, children, backgroundImage }: PageLayoutProps) => (
+const PageLayout = ({ title, subtitle, eyebrow, children }: PageLayoutProps) => (
   <div className="relative min-h-screen hieroglyph-pattern">
-    {backgroundImage && (
-      <>
-        <img
-          src={backgroundImage}
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none fixed inset-0 h-full w-full object-cover"
-        />
-        <div className="pointer-events-none fixed inset-0 bg-background/60 backdrop-blur-sm" />
-      </>
-    )}
-    <div className="relative z-10">
-      <header className="sticky top-0 z-50 border-b border-border bg-card/95">
-        <div className="container mx-auto flex items-center gap-4 px-6 py-4">
-          <Link
-            to="/"
-            className="glass-button flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-foreground hover:bg-muted"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back
-          </Link>
-          <motion.h1
-            className="text-gold-gradient text-xl font-display font-bold md:text-2xl"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-          >
-            {title}
-          </motion.h1>
-          <div className="ml-auto">
-            <ThemeToggle />
+    <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(70%_50%_at_50%_-5%,hsla(43,70%,45%,0.08),transparent_60%)]" />
+    <div className="relative z-10 mx-auto max-w-6xl px-4 pb-24 pt-32 md:px-8">
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="mb-10"
+      >
+        <span className="eyebrow">{eyebrow ?? "Sacred Tool"}</span>
+        <div className="mt-4 flex items-center gap-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-gold/25 bg-gold/10 glow-gold">
+            <EyeMark className="h-6 w-6 text-gold" />
+          </div>
+          <div>
+            <h1 className="text-gold-gradient font-display text-3xl font-bold md:text-5xl">{title}</h1>
+            {subtitle && <p className="mt-1 text-sm text-foreground/65 md:text-base">{subtitle}</p>}
           </div>
         </div>
-      </header>
-      <main className="container mx-auto px-4 py-8 md:px-6">{children}</main>
+      </motion.div>
+      <ToolSwitcher />
+      {children}
     </div>
   </div>
 );

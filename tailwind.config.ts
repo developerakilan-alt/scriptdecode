@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -16,6 +17,7 @@ export default {
       fontFamily: {
         display: ["Cinzel", "serif"],
         body: ["Raleway", "sans-serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -56,6 +58,13 @@ export default {
           light: "hsl(var(--gold-light))",
           dark: "hsl(var(--gold-dark))",
         },
+        obsidian: "hsl(var(--obsidian))",
+        midnight: "hsl(var(--midnight))",
+        egyptian: "hsl(var(--egyptian))",
+        champagne: "hsl(var(--champagne))",
+        electric: "hsl(var(--electric))",
+        turquoise: "hsl(var(--turquoise))",
+        ivory: "hsl(var(--ivory))",
         sand: "hsl(var(--sand))",
         papyrus: "hsl(var(--papyrus))",
         nile: "hsl(var(--nile))",
@@ -92,5 +101,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [animate],
 } satisfies Config;
